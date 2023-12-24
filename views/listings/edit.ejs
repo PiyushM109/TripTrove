@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WanderLust</title>
+</head>
+
+<body>
+    <h3>Edit Listing</h3>
+    <form method="POST" action="/listings/<%= data._id %>?_method=PUT">
+        Title :<input name="listing[title]" value="<%= data.title %>" type="text" />
+        <br /><br />
+        Description :<textarea name="listing[description]" cols="40" rows="6"><%= data.description %></textarea>
+        <br /><br />
+        Image :<input name="listing[image]" value="<%= data.image.url %>" type="text" />
+        <br /><br />
+        Price :<input name="listing[price]" value="<%= data.price %>" type="number" />
+        <br /><br />
+        Country :<input name="listing[country]" value="<%= data.country %>" type="text" />
+        <br /><br />
+        Location :<input name="listing[location]" value="<%= data.location %>" type="text" />
+        <br /><br />
+        <button>Add</button>
+    </form>
+</body>
+
+</html>

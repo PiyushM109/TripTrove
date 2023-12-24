@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripTrove</title>
+</head>
+<body>
+    <h3>Listing Details : </h3>
+    <ul>
+        <li>title : <%=data.title %></li>
+        <li>description : <%=data.description %></li>
+        <li>image : <img src="<%=data.image.url %>" alt="" height="500px" width="300px"></li>
+        <li>price : &#8377;<%=data.price.toLocaleString("en-In") %></li>
+        <li>location : <%=data.location %></li>
+        <li>country : <%=data.country %></li>
+    </ul>
+    <br>
+    <a href="/listings/<%= data._id %>/edit">Edit Information</a>
+    <br>
+    <form method="post" action="/listings/<%= data._id %>?_method=DELETE">
+        <button>Delete</button>
+    </form>
+</body>
+</html>
