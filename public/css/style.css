@@ -4,7 +4,8 @@
 
 .navbar{
     height: 4rem;
-    background-color: white;
+    background-color: #f6f3f3;
+
 }
 
 .fa-mountain-sun{
@@ -14,4 +15,31 @@
 
 .nav-link{
     color: #222222 !important;
+}
+
+.f-info-links a{
+    text-decoration: none;
+    color: #222222;
+}
+.f-info-links a:hover  {
+    text-decoration: underline;
+    
+}
+.f-info-links, .f-info-socials{
+    width: 100%;
+}
+
+.f-info-socials i{
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    margin-top: 1rem;
+}
+.f-info{
+    text-align: center;
+    height: 6rem;
+    background-color: #ebebeb;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
 }
