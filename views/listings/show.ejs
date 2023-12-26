@@ -1,18 +1,30 @@
 <% layout("/layouts/boilerplate") -%>
-<body>
-    <h3>Listing Details : </h3>
-    <ul>
-        <li>title : <%=data.title %></li>
-        <li>description : <%=data.description %></li>
-        <li>image : <img src="<%=data.image.url %>" alt="" height="500px" width="300px"></li>
-        <li>price : &#8377;<%=data.price.toLocaleString("en-In") %></li>
-        <li>location : <%=data.location %></li>
-        <li>country : <%=data.country %></li>
-    </ul>
-    <br>
-    <a href="/listings/<%= data._id %>/edit">Edit Information</a>
-    <br>
-    <form method="post" action="/listings/<%= data._id %>?_method=DELETE">
-        <button>Delete</button>
-    </form>
-</body>
+
+    <body>
+        <div class="row mt-3">
+            <div class="col-8 offset-3">
+                <h3>Listing Details</h3>
+            </div>
+            <div class="card col-6 offset-3 show-card">
+                <img src="<%=data.image.url %>" class="card-img-top show-img" alt="listing image">
+                <div class="card-body">
+                    <p class="card-text">
+                        <b>
+                            <%=data.title %>
+                        </b> <br>
+                        <%=data.description %> <br>
+                            &#8377;<%=data.price.toLocaleString("en-In") %> <br>
+                                <%=data.location %> <br>
+                                    <%=data.country %>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="btns">
+            <a href="/listings/<%= data._id %>/edit" class="btn btn-dark col-1 offset-3">Edit</a>
+
+            <form method="post" action="/listings/<%= data._id %>?_method=DELETE">
+                <button class="btn btn-dark  offset-5">Delete</button>
+            </form>
+        </div>
+    </body>
