@@ -55,7 +55,7 @@ app.get("/listings/:id/edit", (req, res) => {
         // console.log(data);
         res.render("./listings/edit.ejs", { data });
     }).catch(err => {
-        res.send("Something went wrong please try agian later");
+        res.send("Something went wrong please try again later");
     })
 })
 
