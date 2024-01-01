@@ -35,12 +35,13 @@
             <form method="post" action="/listings/<%= data._id %>/reviews" novalidate class="needs-validation">
                 <div class="mb-3 mt-3">
                     <label for="rating" class="form-label">Rating</label>
-                    <input type="range" min="1" max="5" id="rating"  name="review[rating]" class="form-range">
-                    
+                    <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range">
+
                 </div>
                 <div class="mb-3 mt-3">
                     <label for="comment" class="form-label">Comment</label>
-                    <textarea  class="form-control" id="comment" name="review[comment]" cols="20" rows="5" required></textarea>
+                    <textarea class="form-control" id="comment" name="review[comment]" cols="20" rows="5"
+                        required></textarea>
                     <div class="invalid-feedback">
                         Please submit some comment for review
                     </div>
@@ -48,5 +49,21 @@
                 <br>
                 <button class="btn btn-dark">Submit</button>
             </form>
-        </div>
+
+            <hr>
+            <p><b>All Reviews</b></p>
+            <div class="container">
+                <div class="row">
+                    <% for(review of data.reviews){ %>
+                        <div class="col-6">
+                            <div class="custom-card">
+                                <div class="name">John Doe</div>
+                                <div class="review"><%= review.comment %></div>
+                                <div class="rating"><%= review.rating %>⭐</div>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            
     </body>

@@ -66,9 +66,9 @@ app.get("/listings/new", (req, res) => {
     res.render("./listings/new.ejs");
 });
 
-app.get("/listings/:id", (req, res, next) => {
+app.get("/listings/:id", (req, res) => {
     let { id } = req.params;
-    Listing.findById(id).then((data) => {
+    Listing.findById(id).populate("reviews").then((data) => {
         // console.log(data);
         res.render("./listings/show.ejs", { data });
     }).catch(err => {

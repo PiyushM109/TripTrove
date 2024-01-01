@@ -1,47 +1,52 @@
-body{
+body {
     /* background-color: rgb(244, 236, 238) !important; */
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
-.container{
-    flex: 1 ;
+
+.container {
+    flex: 1;
 }
 
-.navbar{
+.navbar {
     height: 4rem;
     background-color: #f6f3f3;
 
 }
 
-.fa-mountain-sun{
+.fa-mountain-sun {
     color: rgb(14, 51, 14);
     font-size: 2rem;
 }
 
-.nav-link{
+.nav-link {
     color: #222222 !important;
 }
 
-.f-info-links a{
+.f-info-links a {
     text-decoration: none;
     color: #222222;
 }
-.f-info-links a:hover  {
+
+.f-info-links a:hover {
     text-decoration: underline;
-    
+
 }
-.f-info-links, .f-info-socials{
+
+.f-info-links,
+.f-info-socials {
     width: 100%;
 }
 
-.f-info-socials i{
+.f-info-socials i {
     font-size: 1.5rem;
     margin-right: 1rem;
     margin-top: 1rem;
 }
-.f-info{
+
+.f-info {
     text-align: center;
     height: 6rem;
     background-color: #ebebeb;
@@ -51,13 +56,13 @@ body{
     align-items: space-evenly;
 }
 
-.card{
+.card {
     border: none !important;
     margin-bottom: 2rem;
     margin-right: 10px;
 }
 
-.card-img-top{
+.card-img-top {
     margin-top: 10px;
     border-radius: 1rem !important;
     width: 100% !important;
@@ -65,37 +70,71 @@ body{
     object-fit: cover !important;
 }
 
-.card-body{
+.card-body {
     padding: 0 !important;
 }
 
-.card-text p{
+.card-text p {
     margin-top: 2rem !important;
     font-weight: 400 !important;
 }
 
-.listing-link{
+.listing-link {
     text-decoration: none;
 }
 
-.card-img-overlay{
+.card-img-overlay {
     opacity: 0;
 }
-.card-img-overlay:hover{
+
+.card-img-overlay:hover {
     text-align: center;
     opacity: 0.2;
     background-color: white;
 }
 
-.show-img{
+.show-img {
     height: 30vh !important;
 }
 
-.btns{
+.btns {
     display: flex;
 }
 
-.show-card{
+.show-card {
     padding-left: 0;
     padding-right: 0;
+}
+
+/* Unique class name: .custom-card */
+
+.custom-card {
+    width: 400px;
+    /* Set a fixed width */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin: 20px;
+}
+
+.custom-card .name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.custom-card .review {
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.custom-card .rating {
+    font-size: 1.1em;
+    color: #f39c12;
+    /* Change color as needed */
 }
