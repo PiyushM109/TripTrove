@@ -60,7 +60,11 @@
                                 <div class="name">John Doe</div>
                                 <div class="review"><%= review.comment %></div>
                                 <div class="rating"><%= review.rating %>⭐</div>
+                                <form method="post" action="/listings/<%= data._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                    <button class="btn btn-sm btn-dark mt-2">Delete</button>
+                                </form>
                             </div>
+                            
                         </div>
                     <% } %>
                 </div>

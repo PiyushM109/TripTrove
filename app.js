@@ -149,6 +149,14 @@ app.post("/listings/:id/reviews", validateSchema, wrapAsync(async (req, res) => 
     await newReview.save();
     await listing.save();
     res.redirect(`/listings/${id}`)
+}));
+
+app.delete("/listings/:id/reviews/:rev_id", wrapAsync(async(req,res)=>{
+    let {id,rev_id}= req.params;
+    await Listing.findByIdAndUpdate(id,{$pull:{reviews:rev_id}})
+    await Review.findByIdAndDelete(id);
+
+    res.redirect(`/listings/${id}`);
 }))
 
 
