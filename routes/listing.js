@@ -35,8 +35,13 @@ router.get("/new", (req, res) => {
 router.get("/:id", (req, res) => {
     let { id } = req.params;
     Listing.findById(id).populate("reviews").then((data) => {
-        // console.log(data);
-        res.render("./listings/show.ejs", { data });
+        if(!data){
+            req.flash("error","Listing you requested for does not exist");
+            res.redirect("/listings");
+        }
+        else{
+            res.render("./listings/show.ejs", { data });
+        }
     }).catch(err => {
         next(new ExpressError(404, "Something went wrong please try again later!"))
 
@@ -47,7 +52,12 @@ router.get("/:id/edit", (req, res, next) => {
     let { id } = req.params;
     Listing.findById(id).then((data) => {
         // console.log(data);
-        res.render("./listings/edit.ejs", { data });
+        if(!data){
+            req.flash("error","Listing you requested for does not exist");
+            res.redirect("/listings");
+        }else{
+            res.render("./listings/edit.ejs", { data });
+        }
     }).catch(err => {
         next(new ExpressError(404, "Page Not Found!"));
     })
@@ -67,6 +77,7 @@ router.post("/", wrapAsync(async (req, res, next) => {
 
     });
     await newListing.save();
+    req.flash("success", "New Listing created!..")
     res.redirect("/listings");
 })
 
@@ -89,6 +100,7 @@ router.put("/:id", (req, res, next) => {
 
     }).then((data) => {
         // console.log(data);
+        req.flash("success", "Listing Updated")
         res.redirect(`/listings/${id}`);
     }).catch(err => {
         // console.log(err);
@@ -97,9 +109,10 @@ router.put("/:id", (req, res, next) => {
 
 });
 
-router.delete("/listings/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
     let { id } = req.params;
     Listing.findByIdAndDelete(id).then(() => {
+        req.flash("success", "Listing deleted..");
         res.redirect("/listings");
     }).catch(err => {
         res.redirect(`/listings/${id}`);
