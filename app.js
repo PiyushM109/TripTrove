@@ -7,6 +7,8 @@ const path = require("path");
 const ExpressError = require("./utils/ExpressError.js");
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
+const session = require("express-session");
+
 
 
 
@@ -26,7 +28,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
-
+const sessionOptions = {
+    secret: "MySuperSecreteCode",
+    resave:false,
+    saveUninitialized:true,
+    cookie:{
+        expires : Date.now() + 7*24*60*60*1000,
+        maxAge : 7*24*60*60*1000,
+        httpOnly: true
+    }
+};
+app.use(session(sessionOptions));
 
 
 
