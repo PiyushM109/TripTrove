@@ -11,17 +11,23 @@
                 <img src="<%=data.image.url %>" class="card-img-top show-img" alt="listing image">
                 <div class="card-body">
                     <p class="card-text">
-                        <b>
-                            <%=data.title %>
-                        </b> <br>
-                        <%=data.description %> <br>
-                            &#8377;<%=data.price.toLocaleString("en-In") %> <br>
-                                <%=data.location %> <br>
-                                    <%=data.country %>
+                        <i>owned by: @<%= data.owner.username %></i>
+                        <br>
+                    <p>
+                        <%=data.description %>
+                    </p>
+                    <p> &#8377;<%=data.price.toLocaleString("en-In") %></p>
+                    <p>
+                        <%=data.location %>
+                    </p>
+                    <p>
+                        <%=data.country %>
+                    </p>
                     </p>
                 </div>
             </div>
         </div>
+        <% if(currUser && currUser._id.equals(data.owner._id)) { %> 
         <div class="btns">
             <a href="/listings/<%= data._id %>/edit" class="btn btn-dark col-1 offset-3">Edit</a>
 
@@ -29,8 +35,13 @@
                 <button class="btn btn-dark  offset-5">Delete</button>
             </form>
         </div>
+        <% } %> 
+
+       
         <div class="col-8 offset-3 mb-3">
-            <hr>
+            
+            <% if(currUser ) { %>
+                <hr>
             <h4>Leave a Review</h4>
             <form method="post" action="/listings/<%= data._id %>/reviews" novalidate class="needs-validation">
                 <div class="mb-3 mt-3">
@@ -49,6 +60,7 @@
                 <br>
                 <button class="btn btn-dark">Submit</button>
             </form>
+            <% } %>
 
             <hr>
             <p><b>All Reviews</b></p>
@@ -57,17 +69,25 @@
                     <% for(review of data.reviews){ %>
                         <div class="col-6">
                             <div class="custom-card">
-                                <div class="name">John Doe</div>
-                                <div class="review"><%= review.comment %></div>
-                                <div class="rating"><%= review.rating %>⭐</div>
-                                <form method="post" action="/listings/<%= data._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                <div class="name">@<%= review.author.username %></div>
+                                <div class="review">
+                                    <%= review.comment %>
+                                </div>
+                                <div class="rating">
+                                    <%= review.rating %>⭐
+                                </div>
+                                <% if(currUser && currUser._id.equals(review.author._id)) { %> 
+                                <form method="post"
+                                    action="/listings/<%= data._id %>/reviews/<%= review._id %>?_method=DELETE">
                                     <button class="btn btn-sm btn-dark mt-2">Delete</button>
                                 </form>
+                                
+                                <% } %>
                             </div>
-                            
+
                         </div>
-                    <% } %>
+                        <% } %>
                 </div>
             </div>
-            
+
     </body>

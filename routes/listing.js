@@ -4,6 +4,8 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const Listing = require("../models/listing.js");
 const { listingSchema, reviewSchema } = require("../schema.js");
+const { isLoggedIn, isOwner } = require("../middleware.js");
+const review = require('../models/review.js');
 
 
 
@@ -28,34 +30,36 @@ router.get("/", (req, res, next) => {
         next(new ExpressError(404, "Page Not Found!"));
     })
 });
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
     res.render("./listings/new.ejs");
 });
 
 router.get("/:id", (req, res) => {
     let { id } = req.params;
-    Listing.findById(id).populate("reviews").then((data) => {
-        if(!data){
-            req.flash("error","Listing you requested for does not exist");
+    Listing.findById(id).populate({path:"reviews",populate:{path:"author"}}).populate("owner").then((data) => {
+        if (!data) {
+            req.flash("error", "Listing you requested for does not exist");
+
             res.redirect("/listings");
         }
-        else{
+        else {
+
             res.render("./listings/show.ejs", { data });
         }
+
     }).catch(err => {
         next(new ExpressError(404, "Something went wrong please try again later!"))
 
     })
 });
 
-router.get("/:id/edit", (req, res, next) => {
+router.get("/:id/edit",isLoggedIn,isOwner,  (req, res, next) => {
     let { id } = req.params;
     Listing.findById(id).then((data) => {
-        // console.log(data);
-        if(!data){
-            req.flash("error","Listing you requested for does not exist");
+        if (!data) {
+            req.flash("error", "Listing you requested for does not exist");
             res.redirect("/listings");
-        }else{
+        } else {
             res.render("./listings/edit.ejs", { data });
         }
     }).catch(err => {
@@ -63,7 +67,7 @@ router.get("/:id/edit", (req, res, next) => {
     })
 })
 
-router.post("/", wrapAsync(async (req, res, next) => {
+router.post("/", isLoggedIn, wrapAsync(async (req, res, next) => {
     const newListing = new Listing({
         title: req.body.listing.title,
         description: req.body.listing.description,
@@ -74,6 +78,7 @@ router.post("/", wrapAsync(async (req, res, next) => {
         price: req.body.listing.price,
         location: req.body.listing.location,
         country: req.body.listing.country,
+        owner: req.user._id
 
     });
     await newListing.save();
@@ -83,9 +88,8 @@ router.post("/", wrapAsync(async (req, res, next) => {
 
 );
 
-router.put("/:id", (req, res, next) => {
+router.put("/:id",isLoggedIn,isOwner, async (req, res, next) => {
     let curr = req.body.listing;
-    console.log(curr.price);
     let { id } = req.params;
     Listing.findByIdAndUpdate(id, {
         title: curr.title,
@@ -99,18 +103,23 @@ router.put("/:id", (req, res, next) => {
         country: curr.country
 
     }).then((data) => {
-        // console.log(data);
         req.flash("success", "Listing Updated")
         res.redirect(`/listings/${id}`);
     }).catch(err => {
-        // console.log(err);
         next(new ExpressError(404, "Page Not Found!"));
     });
 
+
+
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id",isLoggedIn,isOwner, async (req, res) => {
     let { id } = req.params;
+    let listing = await Listing.findById(id);
+    let reviewarr = listing.reviews;
+    for(let i = 0; i<reviewarr.length; i++){
+        await review.findByIdAndDelete(reviewarr[i]);
+    }
     Listing.findByIdAndDelete(id).then(() => {
         req.flash("success", "Listing deleted..");
         res.redirect("/listings");
