@@ -6,6 +6,9 @@ const Listing = require("../models/listing.js");
 const { listingSchema, reviewSchema } = require("../schema.js");
 const { isLoggedIn, isOwner } = require("../middleware.js");
 const review = require('../models/review.js');
+const multer = require("multer");
+const {storage} = require("../cloudConfig.js");
+const upload = multer({storage})
 
 
 
@@ -30,6 +33,7 @@ router.get("/", (req, res, next) => {
         next(new ExpressError(404, "Page Not Found!"));
     })
 });
+
 router.get("/new", isLoggedIn, (req, res) => {
     res.render("./listings/new.ejs");
 });
@@ -67,13 +71,15 @@ router.get("/:id/edit",isLoggedIn,isOwner,  (req, res, next) => {
     })
 })
 
-router.post("/", isLoggedIn, wrapAsync(async (req, res, next) => {
+router.post("/", isLoggedIn,upload.single('listing[image]'), wrapAsync(async (req, res) => {
+    let url = await req.file.path;
+    let name = await req.file.filename;
     const newListing = new Listing({
         title: req.body.listing.title,
         description: req.body.listing.description,
         image: {
-            filename: "listingimage",
-            url: req.body.listing.image,
+            filename: name,
+            url: url,
         },
         price: req.body.listing.price,
         location: req.body.listing.location,
