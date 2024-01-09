@@ -94,15 +94,24 @@ router.post("/", isLoggedIn,upload.single('listing[image]'), wrapAsync(async (re
 
 );
 
-router.put("/:id",isLoggedIn,isOwner, async (req, res, next) => {
-    let curr = req.body.listing;
+router.put("/:id",isLoggedIn,isOwner,upload.single('listing[image]'), async (req, res, next) => {
     let { id } = req.params;
+    let temp = await Listing.findById(id);
+    let url = temp.image.url;
+    let name = temp.image.filename;
+    console.log(req.file);
+    if(typeof req.file !== "undefined"){
+        url = await req.file.path;
+        name = await req.file.filename;
+    }
+
+    let curr = req.body.listing;
     Listing.findByIdAndUpdate(id, {
         title: curr.title,
         description: curr.description,
         image: {
-            filename: "listingimage",
-            url: curr.image,
+            filename: name,
+            url: url,
         },
         price: curr.price,
         location: curr.location,

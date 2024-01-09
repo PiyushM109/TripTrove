@@ -1,11 +1,12 @@
 <% layout("/layouts/boilerplate") -%>
 
     <body>
+        <div class="container">
         <div class="row">
             <div class="col-8 offset-2">
                 <br><br>
                 <h3>Edit Listings</h3>
-                <form method="POST" action="/listings/<%= data._id %>?_method=PUT" novalidate class="needs-validation">
+                <form method="POST" action="/listings/<%= data._id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="title" class="form-label">T I T L E</label>
                         <input input name="listing[title]" id="title" value="<%= data.title %>" type="text"
@@ -25,13 +26,15 @@
                             Please write a short description
                         </div>
                     </div>
+                    <div class="mb-3 ">
+                        <label for="image" class="form-label">O R I G I N A L &nbsp;&nbsp; I M A G E</label><br>
+                        <img src="<%= data.image.url %>" alt="" srcset="" class="show-card" alt="listing image" height="300px" width="250px">
+                    </div>
+                    
                     <div class="mb-3">
-                        <label for="image" class="form-label">I M A G E</label>
-                        <input name="listing[image]" id="image" value="<%= data.image.url %>" type="text"
-                            class="form-control" required />
-                        <div class="invalid-feedback">
-                            Provide valid Image link
-                        </div>
+                        <label for="image" class="form-label">U P L O A D &nbsp;&nbsp;N E W &nbsp;&nbsp; I M A G E</label>
+                        <input name="listing[image]" id="image"  type="file"
+                            class="form-control" />
                     </div>
                     <div class="mb-3">
                         <label for="price" class="form-label">P R I C E</label>
@@ -63,5 +66,11 @@
                     <br><br>
                 </form>
             </div>
+            
+            
         </div>
+       
+        
+        
+    </div>
     </body>
