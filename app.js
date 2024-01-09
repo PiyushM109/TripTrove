@@ -1,3 +1,4 @@
+require('events').EventEmitter.defaultMaxListeners = 0
 if(process.env.NODE_ENV!="production"){
     require("dotenv").config();
 }
@@ -89,7 +90,7 @@ app.all("*", (req, res, next) => {
     next(new ExpressError(404, "Page Not Found!"));
 })
 
-app.use((err, req, res, next) => {
+app.use((err, req, res, next) => { 
     let { statusCode, message } = err;
     res.render("error.ejs", { err });
 })
