@@ -50,7 +50,7 @@ const sessionOptions = {
 };
 
 app.get("/", (req, res) => {
-    res.send("Hello from triptrove :)");
+    res.redirect("/listings")
 });
 
 app.use(session(sessionOptions));

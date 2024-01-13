@@ -1,7 +1,71 @@
 <% layout("/layouts/boilerplate") -%>
 
+<style>
+    #filters{
+        
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .filter{
+        text-align: center;
+        margin-right: 2rem;
+        margin-top: 1rem;
+        opacity: 0.8;
+    }
+    .filter:hover{
+        opacity: 1;
+        cursor: pointer;
+    }
+    .filter p{
+        font-size: 0.8rem;
+    }
+</style>
+
     <body>
-        <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1">
+        <div id="filters">
+            <div class="filter">
+               <div> <i class="fa-solid fa-fire"></i></div>
+                <p>Trending</p> 
+            </div>
+            <div class="filter">
+               <div> <i class="fa-solid fa-bed"></i> </div>
+                <p>Rooms</p> 
+            </div>
+            <div class="filter">
+               <div> <i class="fa-solid fa-gopuram"></i> </div>
+                <p>Iconic Cities</p> 
+            </div>
+            <div class="filter">
+               <div> <i class="fa-solid fa-umbrella-beach"></i> </div>
+                <p>Beach</p> 
+            </div>
+            <div class="filter">
+               <div><i class="fa-solid fa-mountain"></i> </div>
+                <p>Mountains</p> 
+            </div>
+            <div class="filter">
+               <div><i class="fa-brands fa-fort-awesome"></i> </div>
+                <p>Castels</p> 
+            </div>
+            <div class="filter">
+               <div><i class="fa-solid fa-person-swimming"></i> </div>
+                <p>Amazing Pools</p> 
+            </div>
+            <div class="filter">
+               <div><i class="fa-solid fa-tents"></i> </div>
+                <p>Camping</p> 
+            </div>
+            <div class="filter">
+               <div><i class="fa-solid fa-tractor"></i> </div>
+                <p>Farms</p> 
+            </div>
+            <div class="filter">
+               <div><i class="fa-solid fa-person-snowboarding"></i> </div>
+                <p>Arctic</p> 
+            </div>
+        </div>
+        <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 mt-3">
             <%for(let data of datas){ %>
                 <a href="/listings/<%= data._id %>" class="listing-link">
                     <div class="card cols " style="width: 20rem; height: 25rem;">
