@@ -18,6 +18,7 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js")
+const Listing = require("./models/listing.js");
 
 
 
@@ -49,9 +50,7 @@ const sessionOptions = {
     }
 };
 
-app.get("/", (req, res) => {
-    res.redirect("/listings")
-});
+
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -68,7 +67,15 @@ app.use((req, res, next) => {
     res.locals.error = req.flash("error");
     res.locals.currUser = req.user;
     next();
-})
+});
+
+app.get("/", (req, res) => {
+    Listing.find({}).then(listings => {
+        res.render("./listings/home.ejs", { listings });
+    }).catch(err => {
+        next(new ExpressError(404, "Page Not Found!"));
+    })
+});
 
 // app.get("/demouser",async (req, res)=>{
 //     let fakeUser = new User({
