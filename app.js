@@ -1,5 +1,5 @@
 require('events').EventEmitter.defaultMaxListeners = 0
-if(process.env.NODE_ENV!="production"){
+if (process.env.NODE_ENV != "production") {
     require("dotenv").config();
 }
 
@@ -14,6 +14,7 @@ const listingRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -30,7 +31,10 @@ main().then(() => {
 });
 
 async function main() {
-    await mongoose.connect("mongodb://127.0.0.1:27017/TripTrove")
+    const dbUrl = process.env.ATLAS_DB_URL;
+    await mongoose.connect(dbUrl)
+
+
 }
 
 app.set("view engine", "ejs");
@@ -39,8 +43,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
+
+const store = MongoStore.create({
+    mongoUrl: process.env.ATLAS_DB_URL,
+    crypto: {
+        secret: process.env.SECRET,
+    },
+    touchAfter: 24 * 3600,
+
+});
+store.on('error', () => {
+    console.log("Error in mongo Session store", err);
+});
 const sessionOptions = {
-    secret: "MySuperSecreteCode",
+    store,
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -49,6 +66,8 @@ const sessionOptions = {
         httpOnly: true
     }
 };
+
+
 
 
 
@@ -70,7 +89,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-    Listing.find({}).then(listings => {
+    Listing.find({ country: "India" }).then(listings => {
         res.render("./listings/home.ejs", { listings });
     }).catch(err => {
         next(new ExpressError(404, "Page Not Found!"));
@@ -97,7 +116,7 @@ app.all("*", (req, res, next) => {
     next(new ExpressError(404, "Page Not Found!"));
 })
 
-app.use((err, req, res, next) => { 
+app.use((err, req, res, next) => {
     let { statusCode, message } = err;
     res.render("error.ejs", { err });
 })

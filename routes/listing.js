@@ -80,7 +80,7 @@ router.post("/", isLoggedIn, upload.single('listing[image]'), wrapAsync(async (r
         query: req.body.listing.location+","+req.body.listing.country,
         limit: 1
     }).send()
-    // console.log(coordinate.body.features[0].geometry);
+    console.log(coordinate.body.features[0].geometry);
 
 
     let url = await req.file.path;
@@ -117,7 +117,10 @@ router.put("/:id", isLoggedIn, isOwner, upload.single('listing[image]'), wrapAsy
         url = req.file.path;
         name =  req.file.filename;
     }
-
+    let coordinate = await geocodingClient.forwardGeocode({
+        query: req.body.listing.location+","+req.body.listing.country,
+        limit: 1
+    }).send();
     let curr = req.body.listing;
     Listing.findByIdAndUpdate(id, {
         title: curr.title,
@@ -128,7 +131,8 @@ router.put("/:id", isLoggedIn, isOwner, upload.single('listing[image]'), wrapAsy
         },
         price: curr.price,
         location: curr.location,
-        country: curr.country
+        country: curr.country,
+        geometry:coordinate.body.features[0].geometry
 
     }).then((data) => {
         req.flash("success", "Listing Updated")
