@@ -1,4 +1,3 @@
-require('events').EventEmitter.defaultMaxListeners = 0
 if (process.env.NODE_ENV != "production") {
     require("dotenv").config();
 }
@@ -33,8 +32,6 @@ main().then(() => {
 async function main() {
     const dbUrl = process.env.ATLAS_DB_URL;
     await mongoose.connect(dbUrl)
-
-
 }
 
 app.set("view engine", "ejs");
@@ -94,17 +91,9 @@ app.get("/", (req, res) => {
     }).catch(err => {
         next(new ExpressError(404, "Page Not Found!"));
     })
+
 });
 
-// app.get("/demouser",async (req, res)=>{
-//     let fakeUser = new User({
-//         email : "student@getMaxListeners.com",
-//         username : "stud-end"
-//     });
-
-//     let registeredUser = await User.register(fakeUser,"helloworld");
-//     res.send(registeredUser);
-// })
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewsRouter);

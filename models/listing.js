@@ -35,7 +35,7 @@ const listingSchema = new Schema({
     ],
     owner : {
         type : Schema.Types.ObjectId,
-        default : "65968537aa0289fd4f35ba16",
+        default : "65ad4397f6af279b353a63d8",
         ref : "User",
     },
     geometry : {
