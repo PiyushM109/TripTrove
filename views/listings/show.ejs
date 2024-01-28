@@ -40,7 +40,12 @@
                         <button class="btn btn-dark  offset-5">Delete</button>
                     </form>
                 </div>
-                <% } %>
+            <% } else if(currUser ){ %>
+                <div class="btns">
+                    <a class="btn btn-dark col-1 offset-3">Book</a>
+                </div>
+
+            <% } %>
 
 
                     <div class="col-8 offset-3 mb-3">
@@ -126,7 +131,7 @@
                     </div>
                     <div class="col-6 offset-3 mb-3">
                         <h3>Where you'll be</h3>
-                        <div id="map">
+                        <div id="map" style="width: 40vw;">
                             
 
                         </div>

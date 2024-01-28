@@ -30,11 +30,15 @@ main().then(() => {
     console.log(err);
 });
 
+// async function main() {
+//     const dbUrl = process.env.ATLAS_DB_URL;
+//     await mongoose.connect(dbUrl)
+
+
+// }
+
 async function main() {
-    const dbUrl = process.env.ATLAS_DB_URL;
-    await mongoose.connect(dbUrl)
-
-
+    await mongoose.connect("mongodb://127.0.0.1:27017/TripTrove")
 }
 
 app.set("view engine", "ejs");
@@ -44,19 +48,20 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
-const store = MongoStore.create({
-    mongoUrl: process.env.ATLAS_DB_URL,
-    crypto: {
-        secret: process.env.SECRET,
-    },
-    touchAfter: 24 * 3600,
+// const store = MongoStore.create({
+//     mongoUrl: process.env.ATLAS_DB_URL,
+//     crypto: {
+//         secret: process.env.SECRET,
+//     },
+//     touchAfter: 24 * 3600,
 
-});
-store.on('error', () => {
-    console.log("Error in mongo Session store", err);
-});
+// });
+
+// store.on('error', () => {
+//     console.log("Error in mongo Session store", err);
+// });
 const sessionOptions = {
-    store,
+    // store,
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
